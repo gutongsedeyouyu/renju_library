@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+		<link type="text/css" rel="stylesheet" href="/static/css/style.css"/>
+		<title>五子棋谱库</title>
+	</head>
+	<body>
+		<table width="80%" align="center" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td colspan="3" align="left" style="font-size:14px;">&nbsp;</td>
+			</tr>
+			<tr>
+				<td width="15%">&nbsp;</td>
+				<td width="75%" align="center" valign="center" style="font-size:28px;">"{{ keyword }}"的搜索结果</td>
+				<td width="15%" align="right" valign="bottom">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="3">&nbsp;</td>
+			</tr>
+		</table>
+		<table width="80%" align="center" border="1" cellspacing="0" cellpadding="0">
+			<tr bgcolor="#b5b5b5">
+				<td width="50%" align="center" class="solid">标题</td>
+				<td align="center" class="solid">黑棋</td>
+				<td align="center" class="solid">白棋</td>
+				<td width="60px" align="center" class="solid">棋谱</td>
+			</tr>
+			{% for i in range(len(libraries)) %}
+			{% set library = libraries[i] %}
+			<tr bgcolor="{{ '#ffffff' if i % 2 == 0 else '#efefef' }}" onclick="javascript:window.open('/library/viewOrEdit?id={{ library.id }}');">
+				<td width="50%" align="left" class="solid">
+					<a href="#">{{ library.title if library.title else '无标题' }}</a>
+				</td>
+				<td align="center" class="solid">
+					{{ library.blackPlayerName }}
+				</td>
+				<td align="center" class="solid">
+					{{ library.whitePlayerName }}
+				</td>
+				<td width="60px" align="center" class="solid">
+					<a href="#">查看</a>
+				</td>
+			</tr>
+			{% end %}
+		</table>
+		<table width="80%" align="center" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td align="center">
+					{% set threshold = 5 %}
+
+					{% if page_num > threshold %}
+					<a href="#" onclick="jumpTo(0)" class="pageNumber">1</a>...
+					{% end %}
+
+					{% for i in range(max(page_num - threshold, 0), min(page_num + threshold + 1, page_count)) %}
+					<a href="#" onclick="jumpTo({{ i }})" class="{{ 'pageNumber' if i != page_num else 'currentPage' }}">{{ i + 1 }}</a>
+					{% end %}
+
+					{% if page_num < page_count - 1 - threshold %}
+					...<a href="#" onclick="jumpTo({{ page_count - 1 }})" class="pageNumber">{{ page_count }}</a>
+					{% end %}
+				</td>
+			</tr>
+		</table>
+		<form id="searchForm" action="/library/searchText" method="post" target="_self">
+			<input id="keyword" name="keyword" type="hidden" value=""/>
+			<input id="page" name="page" type="hidden" value="0"/>
+		</form>
+		<script type="text/javascript">
+			document.getElementById("keyword").value = "{{ keyword }}";
+
+			function jumpTo(page) {
+				document.getElementById("page").value = page;
+				document.getElementById("searchForm").submit();
+			}
+		</script>
+	</body>
+</html>

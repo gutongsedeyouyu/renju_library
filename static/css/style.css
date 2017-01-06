@@ -1,0 +1,25 @@
+a, a:visited {color:#000000; text-decoration:none;}
+a:hover {color:#ff0000; text-decoration:underline;}
+a.pageNumber {color:#000000; text-decoration:none;}
+a.pageNumber:hover {color:#ff0000; text-decoration:underline;}
+a.currentPage {color:#ff0000; text-decoration:none;}
+a.currentPage:hover {color:#ff0000; text-decoration:underline;}
+
+image {border:0px;}
+
+table {border-collapse:collapse;}
+td.solid {border:1px #000000 solid; font-weight:normal; font-size:16px; color:#000000; font-family:Arial, Helvetica, sans-serif;}
+
+table.board {border-top:0px solid #000000; border-left:0px solid #000000; border-right:0px solid #000000; border-bottom:0px solid #000000; width:400px; height:400px;}
+td.boardLabel {border-top:0px solid #000000; border-left:0px solid #000000; border-right:0px solid #000000; border-bottom:0px solid #000000; width:25px; height:25px; text-align:center; font-weight:normal; font-size:14px; color:#000000; font-family:Arial, Helvetica, sans-serif;}
+td.boardSpot {border-top:0px solid #000000; border-left:0px solid #000000; border-right:0px solid #000000; border-bottom:0px solid #000000; width:25px; height:25px; text-align:center; font-weight:normal; font-size:14px; color:#000000; font-family:Arial, Helvetica, sans-serif; cursor: pointer;}
+
+input.title {width:460px; font-size:18px;}
+input.playerName {width:190px; font-size:18px;}
+input.searchBox {width:350px; font-size:18px;}
+input.label {margin-top:10px; width:160px; font-size:16px;}
+input.primaryButton {padding-left:10px; padding-right:10px; padding-top:5px; padding-bottom:5px; border-radius:8px;}
+
+textarea.comment {width:160px; height:300px; font-size:16px;}
+
+div.pass {position:relative; top:-220px; left:192px; width:45px; color:#00ff00; background:#ffffff; visibility:hidden;}

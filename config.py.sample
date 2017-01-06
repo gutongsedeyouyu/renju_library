@@ -1,0 +1,56 @@
+import tornado.options
+
+tornado.options.define('port', default=8000, type=int)
+tornado.options.define('debug', default=False, type=bool)
+tornado.options.define('num_processes', default=1, type=int)
+
+tornado.options.define('login_url', default='/account/login', type=str)
+tornado.options.define('session_expire_after', default=30 * 24 * 60 * 60, type=int)
+
+tornado.options.define('mongo_db_host', default='127.0.0.1', type=str)
+tornado.options.define('mongo_db_port', default=27017, type=int)
+tornado.options.define('mongo_db_database', default='database', type=str)
+tornado.options.define('mongo_db_timeout', default=100, type=int)
+
+tornado.options.define('redis_session_db_host', default='127.0.0.1', type=str)
+tornado.options.define('redis_session_db_port', default=6379, type=int)
+tornado.options.define('redis_session_db_database', default=2, type=int)
+tornado.options.define('redis_session_db_timeout', default=0.1, type=float)
+
+tornado.options.define('redis_cache_db_host', default='127.0.0.1', type=str)
+tornado.options.define('redis_cache_db_port', default=6379, type=int)
+tornado.options.define('redis_cache_db_database', default=1, type=int)
+tornado.options.define('redis_cache_db_timeout', default=0.1, type=float)
+
+tornado.options.define('elasticsearch_hosts', default=[{'host': '127.0.0.1', 'port': 9200}], type=list)
+tornado.options.define('elasticsearch_index', default='database', type=str)
+tornado.options.define('elasticsearch_timeout', default=60, type=int)
+
+tornado.options.define('oss_access_key_id', default='', type=str)
+tornado.options.define('oss_access_key_secret', default='', type=str)
+tornado.options.define('oss_endpoint', default='', type=str)
+tornado.options.define('oss_img_endpoint', default='', type=str)
+tornado.options.define('oss_bucket_name', default='', type=str)
+
+tornado.options.define('upload_image_max_length', default=2 * 1024 * 1024, type=int)
+tornado.options.define('upload_image_accept_formats', default={'GIF', 'JPEG', 'PNG'}, type=set)
+tornado.options.define('upload_audio_max_length', default=5 * 1024 * 1024, type=int)
+tornado.options.define('upload_audio_accept_formats', default={'audio/mp3'}, type=set)
+tornado.options.define('upload_video_max_length', default=10 * 1024 * 1024, type=int)
+tornado.options.define('upload_video_accept_formats', default={'audio/mp4'}, type=set)
+
+tornado.options.define('send_sms_url', default='', type=str)
+tornado.options.define('send_sms_user_name', default='', type=str)
+tornado.options.define('send_sms_password_md5', default='', type=str)
+tornado.options.define('send_sms_api_key', default='', type=str)
+tornado.options.define('send_sms_timeout', default=3, type=int)
+
+tornado.options.define('send_mail_host', default='', type=str)
+tornado.options.define('send_mail_port', default=25, type=int)
+tornado.options.define('send_mail_user', default='', type=str)
+tornado.options.define('send_mail_password', default='', type=str)
+tornado.options.define('send_mail_timeout', default=3, type=int)
+
+
+def config():
+    tornado.options.parse_command_line()

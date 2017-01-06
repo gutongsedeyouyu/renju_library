@@ -1,0 +1,82 @@
+# user nobody;
+worker_processes 1;
+
+# error_log logs/error.log;
+# error_log logs/error.log notice;
+# error_log logs/error.log info;
+
+# pid logs/nginx.pid;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    include mime.types;
+    default_type application/octet-stream;
+
+    # access_log logs/access.log combined;
+
+    limit_req_zone $binary_remote_addr zone=one:10m rate=10r/s;
+    limit_req_log_level warn;
+
+    sendfile on;
+    keepalive_timeout 65;
+
+    gzip on;
+    gzip_min_length 1024;
+    gzip_comp_level 2;
+
+    upstream tornado {
+        server 127.0.0.1:8000;
+    }
+
+    server {
+        listen 80;
+        server_name localhost;
+        charset utf-8;
+
+        location / {
+            limit_req zone=one burst=5 nodelay;
+            client_max_body_size 10m;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Scheme $scheme;
+            proxy_pass http://tornado;
+            proxy_redirect off;
+        }
+
+        location /static/ {
+            alias /path/to/static/;
+        }
+    }
+
+    server {
+        listen 443;
+        server_name localhost;
+        charset utf-8;
+        ssl on;
+        root html;
+        index index.html index.htm;
+        ssl_certificate /path/to/certificate.pem;
+        ssl_certificate_key /path/to/certificate.key;
+        ssl_session_timeout 5m;
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+        ssl_ciphers AESGCM:ALL:!DH:!EXPORT:!RC4:+HIGH:!MEDIUM:!LOW:!aNULL:!eNULL;
+        ssl_prefer_server_ciphers on;
+
+        location / {
+            limit_req zone=one burst=5 nodelay;
+            client_max_body_size 10m;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Scheme $scheme;
+            proxy_pass http://tornado;
+            proxy_redirect off;
+        }
+
+        location /static/ {
+            alias /path/to/static/;
+        }
+    }
+}
