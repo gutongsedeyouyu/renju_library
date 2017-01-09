@@ -60,11 +60,8 @@ function Renju(character, upDownReflected, leftRightReflected, rotateTimes) {
     this.boardHtmlElement = document.getElementById('board');
     this.labelHtmlElement = document.getElementById('label');
     this.commentHtmlElement = document.getElementById('comment');
-    if (this.character != CHARACTER.EDITOR) {
-        this.titleHtmlElement.disabled = true;
-        this.labelHtmlElement.disabled = true;
-        this.commentHtmlElement.disabled = true;
-    }
+    this.passHtmlElement = document.getElementById("pass");
+    this.passHtmlElement.style.display = "none";
     this.rootMove = null;
     this.currentMove = null;
     this.currentBranch = null;
@@ -444,8 +441,8 @@ Move.prototype.play = function() {
         __renju__.stones[this.y][this.x] = this.stone;
     }
     if (this.__isPass() && !this.isRoot()) {
-        document.getElementById('pass').style.visibility = 'visible';
-        setTimeout('document.getElementById("pass").style.visibility="hidden"', 1000);
+        __renju__.passHtmlElement.style.display = "block";
+        setTimeout('__renju__.passHtmlElement.style.display="none"', 1000);
     }
     __renju__.currentMove = this;
     var parent = this.parent;

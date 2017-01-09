@@ -54,12 +54,12 @@ class Library(BaseModel):
         return self.to_vo(search=True)
 
     @staticmethod
-    def list_by_page(page_num, page_size=20):
+    def list_by_page(page_num, page_size=10):
         libraries = Library.objects.exclude('manual', 'patterns')
         return Library.paginate_query_set(libraries, page_num, page_size)
 
     @staticmethod
-    def search_text_by_page(keyword, page_num, page_size=20):
+    def search_text_by_page(keyword, page_num, page_size=10):
         query = {'multi_match': {'query': keyword,
                                  'fields': ['title^2',
                                             'blackPlayerName^2',
@@ -68,7 +68,7 @@ class Library(BaseModel):
         return Library.do_search(query, page_num, page_size)
 
     @staticmethod
-    def search_manual_by_page(search_datas, page_num, page_size=20):
+    def search_manual_by_page(search_datas, page_num, page_size=10):
         libraries = Library.objects(patterns__in=search_datas).exclude('manual', 'patterns')
         return Library.paginate_query_set(libraries, page_num, page_size)
 

@@ -1,55 +1,59 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-		<link type="text/css" rel="stylesheet" href="/static/css/style.css"/>
-		<title>搜索</title>
-	</head>
-	<body>
-		<table width="600" align="center">
-			<tr>
-				<td colspan="3" align="center" valign="center">
-					<input id="title" type="textfield" maxlength="40" class="searchBox">
-					&nbsp;&nbsp;
-					<input id="searchText" type="button" value="按标题、棋手和批注搜索" class="primaryButton" onclick="__renju__.searchText();">
-				</td>
-			</tr>
-			<tr>
-				<td width="46%"><hr></td>
-				<td width="8%" align="center"><br>或者<br><br></td>
-				<td width="46%"><hr></td>
-			</tr>
-			<tr>
-				<td colspan="3" align="center" valign="top">
-					<div id="board"></div>
-					<div id="pass" class="pass">PASS</div>
-				</td>
-			</tr>
-			<tr style="display:none;">
-				<td colspan="3">
-					<input id="label" type="textfield" maxlength="1" class="label" onchange="this.value = (this.value.length > 0) ? this.value.charAt(0) : '';">
-					<br>
-					<textarea id="comment" class="comment"></textarea>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="3" align="center" valign="center">
-					<a href="#" onclick="__renju__.goToBeforeFirstMove();"><img src="/static/img/first_move.png"></a>
-					<a href="#" onclick="__renju__.goToPreviousFork();"><img src="/static/img/previous_fork.png"></a>
-					<a href="#" onclick="__renju__.goToPreviousMove();"><img src="/static/img/previous_move.png"></a>
-					<a href="#" onclick="__renju__.goToNextMove();"><img src="/static/img/next_move.png"></a>
-					<a href="#" onclick="__renju__.goToNextFork();"><img src="/static/img/next_fork.png"></a>
-					<a href="#" onclick="__renju__.goToLastMove();"><img src="/static/img/last_move.png"></a>
-					<a href="#" onclick="__renju__.playPassMove();"><img src="/static/img/pass.png"></a>
-					&nbsp;&nbsp;
-					<input id="searchManual" type="button" value="按棋型搜索" class="primaryButton" onclick="__renju__.searchManual();">
-				</td>
-			</tr>
-		</table>
-		<script type="text/javascript" src="/static/js/request.js"></script>
-		<script type="text/javascript" src="/static/js/renju.js"></script>
-		<script type="text/javascript">
-			__renju__ = new Renju(CHARACTER.EDITOR, false, false, 0);
-			__renju__.showFreshNew();
-		</script>
-	</body>
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/static/css/style.css" rel="stylesheet">
+        <title>搜索</title>
+    </head>
+    <body>
+        <div id="pass" class="alert alert-info">PASS</div>
+        <div class="container">
+            <br>
+            <div class="row">
+                <div class="text-center">
+                    <input id="title" type="textfield" size="20">
+                    <input id="searchText" type="button" value="搜文字" class="btn btn-primary" onclick="__renju__.searchText();">
+                </div>
+            </div>
+            <div class="row">
+                <div class="text-center text-warning">
+                    <span><br>--------------------&nbsp;&nbsp;或者&nbsp;&nbsp;--------------------<br></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <td colspan="3" style="border:none;">
+                                <div id="board" align="center"></div>
+                                <div style="display:none;">
+                                    <input id="label" type="textfield" maxlength="1" class="label" onchange="this.value = (this.value.length > 0) ? this.value.charAt(0) : '';">
+                                    <textarea id="comment" class="comment"></textarea>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row text-center">
+                <a href="javascript:void(0);" onclick="__renju__.goToBeforeFirstMove();"><img src="/static/img/first_move.png"></a>
+                <a href="javascript:void(0);" onclick="__renju__.goToPreviousFork();"><img src="/static/img/previous_fork.png"></a>
+                <a href="javascript:void(0);" onclick="__renju__.goToPreviousMove();"><img src="/static/img/previous_move.png"></a>
+                <a href="javascript:void(0);" onclick="__renju__.goToNextMove();"><img src="/static/img/next_move.png"></a>
+                <a href="javascript:void(0);" onclick="__renju__.goToNextFork();"><img src="/static/img/next_fork.png"></a>
+                <a href="javascript:void(0);" onclick="__renju__.goToLastMove();"><img src="/static/img/last_move.png"></a>
+                <a href="javascript:void(0);" onclick="__renju__.playPassMove();"><img src="/static/img/pass.png"></a>
+                &nbsp;&nbsp;
+                <input id="searchManual" type="button" value="搜棋型" class="btn btn-primary" onclick="__renju__.searchManual();">
+            </div>
+            <br>
+        </div>
+        <script type="text/javascript" src="/static/js/request.js"></script>
+        <script type="text/javascript" src="/static/js/renju.js"></script>
+        <script type="text/javascript">
+            __renju__ = new Renju(CHARACTER.EDITOR, false, false, 0);
+            __renju__.showFreshNew();
+        </script>
+    </body>
 </html>

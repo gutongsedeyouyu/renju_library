@@ -1,83 +1,78 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-		<link type="text/css" rel="stylesheet" href="/static/css/style.css"/>
-		<title>五子棋谱库</title>
-	</head>
-	<body>
-		<table width="600" align="center">
-			<tr>
-				<td colspan="3" align="center">
-					<table width="85%">
-						<tr>
-							<td colspan="3">标题:&nbsp;&nbsp;<input id="title" type="textfield" maxlength="40" class="title" {% if not can_edit %} disabled="true" {% end %}></td>
-						</tr>
-						<tr>
-							<td width="49%">黑棋:&nbsp;&nbsp;<input id="blackPlayerName" type="textfield" maxlength="40" class="playerName" {% if not can_edit %} disabled="true" {% end %}></td>
-							<td width="2%">&nbsp;</td>
-							<td width="49%">白棋:&nbsp;&nbsp;<input id="whitePlayerName" type="textfield" maxlength="40" class="playerName" {% if not can_edit %} disabled="true" {% end %}></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="3">&nbsp;</td>
-			</tr>
-			<tr>
-				<td width="70%" valign="top">
-					<div id="board"></div>
-					<div id="pass" class="pass">PASS</div>
-				</td>
-				<td width="2%">
-					&nbsp;
-				</td>
-				<td width="28%" valign="top">
-					<input id="label" type="textfield" maxlength="1" class="label" onchange="this.value = (this.value.length > 0) ? this.value.charAt(0) : '';" {% if not can_edit %} disabled="true" {% end %}>
-					<br>
-					<textarea id="comment" class="comment" {% if not can_edit %} disabled="true" {% end %}></textarea>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="3" align="center">
-					<a href="#" onclick="__renju__.revert();"><img src="/static/img/revert.png"></a>
-					<a href="#" onclick="__renju__.reflectUpDown();"><img src="/static/img/up_down.png"></a>
-					<a href="#" onclick="__renju__.reflectLeftRight();"><img src="/static/img/left_right.png"></a>
-					<a href="#" onclick="__renju__.rotateClockwise();"><img src="/static/img/clockwise.png"></a>
-					<a href="#" onclick="__renju__.rotateCounterclockwise();"><img src="/static/img/counterclockwise.png"></a>
-					&nbsp;&nbsp;&nbsp;&nbsp;
-					<a href="#" onclick="__renju__.goToBeforeFirstMove();"><img src="/static/img/first_move.png"></a>
-					<a href="#" onclick="__renju__.goToPreviousFork();"><img src="/static/img/previous_fork.png"></a>
-					<a href="#" onclick="__renju__.goToPreviousMove();"><img src="/static/img/previous_move.png"></a>
-					<a href="#" onclick="__renju__.goToNextMove();"><img src="/static/img/next_move.png"></a>
-					<a href="#" onclick="__renju__.goToNextFork();"><img src="/static/img/next_fork.png"></a>
-					<a href="#" onclick="__renju__.goToLastMove();"><img src="/static/img/last_move.png"></a>
-					&nbsp;&nbsp;&nbsp;&nbsp;
-					<a href="#" onclick="__renju__.searchManual();"><img src="/static/img/search.png"></a>
-					&nbsp;&nbsp;&nbsp;&nbsp;
-					{% if can_edit %}
-					<a href="#" onclick="__renju__.playPassMove();"><img src="/static/img/pass.png"></a>
-					<a href="#" onclick="__renju__.deleteCurrentMove();"><img src="/static/img/delete.png"></a>
-					<a href="#" onclick="__renju__.saveLibrary();"><img src="/static/img/save.png"></a>
-					{% end %}
-				</td>
-			</tr>
-		</table>
-		<script type="text/javascript" src="/static/js/request.js"></script>
-		<script type="text/javascript" src="/static/js/renju.js"></script>
-		<script type="text/javascript">
-			__renju__ = new Renju({% if can_edit %} CHARACTER.EDITOR {% else %} CHARACTER.VISITOR {% end %}, false, false, 0);
-			{% if not library %}
-			__renju__.showFreshNew();
-			{% else %}
-			__renju__.loadLibrary('{{ library.id }}', '{{ library.title }}', '{{ library.blackPlayerName }}', '{{ library.whitePlayerName }}', {% raw library.manual %});
-			{% end %}
-			{% if can_edit %}
-			if (window.opener.location.pathname == "/library/list") {
-				window.onunload = function() {
-					window.opener.location.reload();
-				}
-			}
-			{% end %}
-		</script>
-	</body>
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/static/css/style.css" rel="stylesheet">
+        <title>五子棋谱库</title>
+    </head>
+    <body>
+        <div id="pass" class="alert alert-info">PASS</div>
+        <div class="container text-center">
+            <div class="row">
+                <div class="table-responsive col-sm-12 col-md-8 col-md-offset-2">
+                    <table class="table" style="border:none;">
+                        <tr>
+                            <td style="border:none;">
+                                <div id="board"></div>
+                            </td>
+                            <td style="border:none;">
+                                <label for="title">标题</label>
+                                <input id="title" type="text" size="30">
+                                <br>
+                                <label for="blackPlayerName">黑棋</label>
+                                <input id="blackPlayerName" type="text" size="30">
+                                <br>
+                                <label for="whitePlayerName">白棋</label>
+                                <input id="whitePlayerName" type="text" size="30">
+                                <br><br>
+                                <input id="label" type="text" size="34" onchange="this.value = (this.value.length > 0) ? this.value.charAt(0) : '';">
+                                <br>
+                                <textarea id="comment" cols="35" rows="10"}></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <a href="javascript:void(0);" onclick="__renju__.goToBeforeFirstMove();"><img src="/static/img/first_move.png"></a>
+                <a href="javascript:void(0);" onclick="__renju__.goToPreviousFork();"><img src="/static/img/previous_fork.png"></a>
+                <a href="javascript:void(0);" onclick="__renju__.goToPreviousMove();"><img src="/static/img/previous_move.png"></a>
+                <a href="javascript:void(0);" onclick="__renju__.goToNextMove();"><img src="/static/img/next_move.png"></a>
+                <a href="javascript:void(0);" onclick="__renju__.goToNextFork();"><img src="/static/img/next_fork.png"></a>
+                <a href="javascript:void(0);" onclick="__renju__.goToLastMove();"><img src="/static/img/last_move.png"></a>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="javascript:void(0);" onclick="__renju__.revert();"><img src="/static/img/revert.png"></a>
+                <a href="javascript:void(0);" onclick="__renju__.reflectUpDown();"><img src="/static/img/up_down.png"></a>
+                <a href="javascript:void(0);" onclick="__renju__.reflectLeftRight();"><img src="/static/img/left_right.png"></a>
+                <a href="javascript:void(0);" onclick="__renju__.rotateClockwise();"><img src="/static/img/clockwise.png"></a>
+                <a href="javascript:void(0);" onclick="__renju__.rotateCounterclockwise();"><img src="/static/img/counterclockwise.png"></a>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="javascript:void(0);" onclick="__renju__.searchManual();"><img src="/static/img/search.png"></a>
+                {% if can_edit %}
+                <a href="javascript:void(0);" onclick="__renju__.playPassMove();"><img src="/static/img/pass.png"></a>
+                <a href="javascript:void(0);" onclick="__renju__.deleteCurrentMove();"><img src="/static/img/delete.png"></a>
+                <a href="javascript:void(0);" onclick="__renju__.saveLibrary();"><img src="/static/img/save.png"></a>
+                {% end %}
+            </div>
+            <br>
+        </div>
+        <script type="text/javascript" src="/static/js/request.js"></script>
+        <script type="text/javascript" src="/static/js/renju.js"></script>
+        <script type="text/javascript">
+            __renju__ = new Renju({% if can_edit %} CHARACTER.EDITOR {% else %} CHARACTER.VISITOR {% end %}, false, false, 0);
+            {% if not library %}
+            __renju__.showFreshNew();
+            {% else %}
+            __renju__.loadLibrary('{{ library.id }}', '{{ library.title }}', '{{ library.blackPlayerName }}', '{{ library.whitePlayerName }}', {% raw library.manual %});
+            {% end %}
+            {% if can_edit %}
+            if (window.opener != null && window.opener.location.pathname == "/library/list") {
+                window.onunload = function() {
+                    window.opener.location.reload();
+                }
+            }
+            {% end %}
+        </script>
+    </body>
 </html>

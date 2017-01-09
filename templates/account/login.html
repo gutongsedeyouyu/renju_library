@@ -1,71 +1,54 @@
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-		<link type="text/css" rel="stylesheet" href="/static/css/style.css"/>
-		<title>五子棋谱库</title>
-	</head>
-	<body>
-		<table width="80%" align="center" border="0" cellspacing="0" cellpadding="0">
-			<tr>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td align="center">
-					账号：<input id="userName" type="text" maxlength="40"/>
-				</td>
-			</tr>
-			<tr>
-				<td align="center">
-					密码：<input id="password" type="password" maxlength="40">
-				</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td align="center">
-					<input type="submit" value="提交" onclick="login()"/>
-				</td>
-			</tr>
-		</table>
-		<script type="text/javascript" src="/static/js/request.js"></script>
-		<script type="text/javascript">
-			function login() {
-				var userName = document.getElementById("userName").value;
-				var password = document.getElementById("password").value;
-				if (userName.length == 0 || password.length == 0) {
-					alert("请输入用户名和密码");
-					return;
-				}
-				var apiRequest = new ApiRequest("/account/api/login");
-				apiRequest.send({
-									"userName":userName,
-									"password":password
-								},
-								function(result) {
-									if (result['status'] != 0) {
-										if (result['message'].length > 0) {
-											alert(result['message']);
-										}
-										return;
-									}
-									document.cookie = "sessionId=" + result["data"]["sessionId"] + ";path=/";
-									window.location = "/library/list";
-								}
-				);
-			}
-		</script>
-	</body>
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+        <title>五子棋谱库</title>
+    </head>
+    <body>
+        <div class="container">
+            <br>
+            <div class="row text-center">
+                <label for="userName">账号</label>
+                <input id="userName" type="text"/>
+            </div>
+            <br>
+            <div class="row text-center">
+                <label for="password">密码</label>
+                <input id="password" type="password">
+            </div>
+            <br>
+            <div class="row text-center">
+                <a href="javascript:void(0);" class="btn btn-primary" onclick="login()">登录</a>
+            </div>
+        </div>
+        <script type="text/javascript" src="/static/js/request.js"></script>
+        <script type="text/javascript">
+            function login() {
+                var userName = document.getElementById("userName").value;
+                var password = document.getElementById("password").value;
+                if (userName.length == 0 || password.length == 0) {
+                    alert("请输入用户名和密码");
+                    return;
+                }
+                var apiRequest = new ApiRequest("/account/api/login");
+                apiRequest.send({
+                                    "userName":userName,
+                                    "password":password
+                                },
+                                function(result) {
+                                    if (result['status'] != 0) {
+                                        if (result['message'].length > 0) {
+                                            alert(result['message']);
+                                        }
+                                        return;
+                                    }
+                                    document.cookie = "sessionId=" + result["data"]["sessionId"] + ";path=/";
+                                    window.location = "/library/list";
+                                }
+                );
+            }
+        </script>
+    </body>
 </html>

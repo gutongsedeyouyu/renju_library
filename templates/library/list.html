@@ -1,92 +1,79 @@
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-		<link type="text/css" rel="stylesheet" href="/static/css/style.css"/>
-		<title>五子棋谱库</title>
-	</head>
-	<body>
-		<table width="80%" align="center" border="0" cellspacing="0" cellpadding="0">
-			<tr>
-				<td colspan="5" align="left" style="font-size:14px;">
-					{% if not session %}
-					<a href="/account/login">登录</a>
-					{% else %}
-					你好，{{ session['nickName'] }}&nbsp;&nbsp;<a href="/account/logout">退出</a>
-					{% end %}
-				</td>
-			</tr>
-			<tr>
-				<td width="15%">
-					&nbsp;
-				</td>
-				<td width="10%" align="center" valign="center">
-					<img src="/static/img/qr_code_1.jpg" width="80", height="80">
-				</td>
-				<td width="50%" align="center" valign="center" style="font-size:28px;">
-					五子棋谱库
-				</td>
-				<td width="10%" align="center" valign="center">
-					<img src="/static/img/qr_code_2.jpg" width="80", height="80">
-				</td>
-				<td width="15%" align="right" valign="center">
-					<a href="/library/search" target="_blank">搜索</a>
-					&nbsp;
-					{% if not session %}
-					&nbsp;
-					{% else %}
-					<a href="/library/viewOrEdit" target="_blank">新建</a>
-					{% end %}
-				</td>
-			</tr>
-			<tr>
-				<td colspan="5">&nbsp;</td>
-			</tr>
-		</table>
-		<table width="80%" align="center" border="1" cellspacing="0" cellpadding="0">
-			<tr bgcolor="#b5b5b5">
-				<td width="50%" align="center" class="solid">标题</td>
-				<td align="center" class="solid">黑棋</td>
-				<td align="center" class="solid">白棋</td>
-				<td width="60px" align="center" class="solid">棋谱</td>
-			</tr>
-			{% for i in range(len(libraries)) %}
-			{% set library = libraries[i] %}
-			<tr bgcolor="{{ '#ffffff' if i % 2 == 0 else '#efefef' }}" onclick="javascript:window.open('/library/viewOrEdit?id={{ library.id }}');">
-				<td width="50%" align="left" class="solid">
-					<a href="#">{{ library.title if len(library.title) > 0 else '无标题' }}</a>
-				</td>
-				<td align="center" class="solid">
-					{{ library.blackPlayerName }}
-				</td>
-				<td align="center" class="solid">
-					{{ library.whitePlayerName }}
-				</td>
-				<td width="60px" align="center" class="solid">
-					<a href="#">查看</a>
-				</td>
-			</tr>
-			{% end %}
-		</table>
-		<table width="80%" align="center" border="0" cellspacing="0" cellpadding="0">
-			<tr>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td align="center">
-					{% set threshold = 5 %}
-					{% if page_num > threshold %}
-					<a href="/library/list?page=0" class="pageNumber">1</a>...
-					{% end %}
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+        <title>五子棋谱库</title>
+    </head>
+    <body>
+        <div class="container">
+            {% if not session %}
+            <a href="/account/login" class="btn btn-link">登录</a>
+            {% else %}
+            你好，{{ session['nickName'] }}<a href="/account/logout" class="btn btn-link">退出</a>
+            {% end %}
+        </div>
+        <div class="container text-center">
+            <h3>五子棋谱库</h3>
+        </div>
+        <div class="container text-right">
+            <a href="/library/search" target="_blank" class="btn btn-primary btn-sm">搜索</a>
+            {% if session %}
+            <a href="/library/viewOrEdit" target="_blank" class="btn btn-primary btn-sm">新建</a>
+            {% end %}
+        </div>
+        <div class="container table-responsive">
+            <table class="col-sm-12 table-condensed table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-sm-5">标题</th>
+                        <th class="col-sm-3">黑棋</th>
+                        <th class="col-sm-3">白棋</th>
+                        <th class="col-sm-1">棋谱</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for library in libraries %}
+                    <tr>
+                        <td>
+                            <a href="/library/viewOrEdit?id={{ library.id }}" class="btn btn-link">{{ library.title if len(library.title) > 0 else '无标题' }}</a>
+                        </td>
+                        <td>
+                            {{ library.blackPlayerName }}
+                        </td>
+                        <td>
+                            {{ library.whitePlayerName }}
+                        </td>
+                        <td>
+                            <a href="/library/viewOrEdit?id={{ library.id }}" class="btn btn-link">查看</a>
+                        </td>
+                    </tr>
+                    {% end %}
+                </tbody>
+            </table>
+        </div>
+        <div class="container text-center">
+            <ul class="pagination">
+                {% set threshold = 5 %}
+                {% if page_num > threshold %}
+                <li><a href="/library/list?page=0">1</a></li>
+                <li><a href="javascript:void(0);">...</a></li>
+                {% end %}
 
-					{% for i in range(max(page_num - threshold, 0), min(page_num + threshold + 1, page_count)) %}
-					<a href="/library/list?page={{ i }}" class="{{ 'pageNumber' if i != page_num else 'currentPage' }}">{{ i + 1 }}</a>
-					{% end %}
+                {% for i in range(max(page_num - threshold, 0), min(page_num + threshold + 1, page_count)) %}
+                    {% if i != page_num %}
+                    <li><a href="/library/list?page={{ i }}">{{ i + 1 }}</a></li>
+                    {% else %}
+                    <li class="active"><a href="javascript:void(0);">{{ i + 1 }}</a></li>
+                    {% end %}
+                {% end %}
 
-					{% if page_num < page_count - 1 - threshold %}
-					...<a href="/library/list?page={{ page_count - 1 }}" class="pageNumber">{{ page_count }}</a>
-					{% end %}
-				</td>
-			</tr>
-		</table>
-	</body>
+                {% if page_num < page_count - 1 - threshold %}
+                <li><a href="javascript:void(0);">...</a></li>
+                <li><a href="/library/list?page={{ page_count - 1 }}">{{ page_count }}</a></li>
+                {% end %}
+            </ul>
+        </div>
+    </body>
 </html>
