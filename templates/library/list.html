@@ -24,20 +24,20 @@
             {% end %}
         </div>
         <div class="container table-responsive">
-            <table class="col-sm-12 table-condensed table-striped table-hover">
+            <table class="col-xs-12 table-striped table-hover">
                 <thead>
                     <tr>
-                        <th class="col-sm-5">标题</th>
-                        <th class="col-sm-3">黑棋</th>
-                        <th class="col-sm-3">白棋</th>
-                        <th class="col-sm-1">棋谱</th>
+                        <th class="col-xs-5">标题</th>
+                        <th class="col-xs-3">黑棋</th>
+                        <th class="col-xs-3">白棋</th>
+                        <th class="col-xs-1">棋谱</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for library in libraries %}
                     <tr>
                         <td>
-                            <a href="/library/viewOrEdit?id={{ library.id }}" class="btn btn-link">{{ library.title if len(library.title) > 0 else '无标题' }}</a>
+                            {{ library.title if len(library.title) > 0 else '无标题' }}
                         </td>
                         <td>
                             {{ library.blackPlayerName }}
@@ -46,7 +46,7 @@
                             {{ library.whitePlayerName }}
                         </td>
                         <td>
-                            <a href="/library/viewOrEdit?id={{ library.id }}" class="btn btn-link">查看</a>
+                            <a href="/library/viewOrEdit?id={{ library.id }}" target="_blank" class="btn btn-link">查看</a>
                         </td>
                     </tr>
                     {% end %}
@@ -58,19 +58,19 @@
                 {% set threshold = 5 %}
                 {% if page_num > threshold %}
                 <li><a href="/library/list?page=0">1</a></li>
-                <li><a href="javascript:void(0);">...</a></li>
+                <li class="disabled"><a href="javascript:;">...</a></li>
                 {% end %}
 
                 {% for i in range(max(page_num - threshold, 0), min(page_num + threshold + 1, page_count)) %}
                     {% if i != page_num %}
                     <li><a href="/library/list?page={{ i }}">{{ i + 1 }}</a></li>
                     {% else %}
-                    <li class="active"><a href="javascript:void(0);">{{ i + 1 }}</a></li>
+                    <li class="active"><a href="javascript:;">{{ i + 1 }}</a></li>
                     {% end %}
                 {% end %}
 
                 {% if page_num < page_count - 1 - threshold %}
-                <li><a href="javascript:void(0);">...</a></li>
+                <li class="disabled"><a href="javascript:;">...</a></li>
                 <li><a href="/library/list?page={{ page_count - 1 }}">{{ page_count }}</a></li>
                 {% end %}
             </ul>
