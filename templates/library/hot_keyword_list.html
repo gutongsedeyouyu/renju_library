@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+        <title>五子棋谱库</title>
+    </head>
+    <body>
+        <div class="container text-center">
+            <h3>热门搜索</h3>
+        </div>
+        {% if can_edit %}
+        <div class="container text-right">
+                <a href="#" onclick="addHotKeyword();" class="btn btn-primary btn-sm">添加</a>
+        </div>
+        {% end %}
+        <div class="container table-responsive">
+            <table class="col-xs-12 table-striped table-hover">
+                <tbody>
+                    <tr>
+                        <td class="col-xs-2">
+                            &nbsp;
+                        </td>
+                        <td class="col-xs-8">
+                            <a href="/library/list" target="_blank">查看全部棋谱</a>
+                        </td>
+                        <td class="col-xs-2">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    {% for hotKeyword in hotKeywords %}
+                    <tr>
+                        <td class="col-xs-2">
+                            &nbsp;
+                        </td>
+                        <td class="col-xs-8">
+                            <a href="#" onclick="searchText('{{ hotKeyword.keyword }}');">{{ hotKeyword.keyword }}</a>
+                        </td>
+                        {% if not can_edit %}
+                        <td class="col-xs-2">
+                            &nbsp;
+                        </td>
+                        {% else %}
+                        <td class="col-xs-2">
+                            <a href="#" onclick="deleteHotKeyword('{{ hotKeyword.id }}');" class="btn btn-link">删除</a>
+                        </td>
+                        {% end %}
+                    </tr>
+                    {% end %}
+                </tbody>
+            </table>
+        </div>
+        <script type="text/javascript" src="/static/js/request.js"></script>
+        <script type="text/javascript">
+            function searchText(keyword) {
+                var formRequest = new FormRequest('/library/searchText', 'post', '_blank');
+                formRequest.send({
+                    'keyword':keyword,
+                    'page':0
+                });
+            }
+            function addHotKeyword() {
+                var keyword = prompt("请输入要添加的热门搜索关键词", "");
+                if (keyword) {
+                    saveHotKeyword(keyword);
+                }
+            }
+            function saveHotKeyword(keyword) {
+                var apiRequest = new ApiRequest('/library/api/saveHotKeyword');
+                apiRequest.send({
+                        'id':'',
+                        'keyword':keyword
+                    },
+                    function(result) {
+                        if (result['status'] != 0) {
+                            return;
+                        }
+                        window.location.reload();
+                    }
+                );
+            }
+            function deleteHotKeyword(id) {
+                var apiRequest = new ApiRequest('/library/api/deleteHotKeyword');
+                apiRequest.send({
+                        'id':id
+                    },
+                    function(result) {
+                        if (result['status'] != 0) {
+                            return;
+                        }
+                        window.location.reload();
+                    }
+                );
+            }
+        </script>
+    </body>
+</html>

@@ -14,7 +14,7 @@ from core.handlers import UploadImageHandler, UploadAudioHandler, UploadVideoHan
 def main():
     config()
     handlers = list()
-    handlers.extend([(r'^/$', tornado.web.RedirectHandler, {'url': '/library/list'}),
+    handlers.extend([(r'^/$', tornado.web.RedirectHandler, {'url': '/library/hotKeywordList'}),
                      (r'^/common/uploadImage$', UploadImageHandler),
                      (r'^/common/uploadAudio$', UploadAudioHandler),
                      (r'^/common/uploadVideo$', UploadVideoHandler)])

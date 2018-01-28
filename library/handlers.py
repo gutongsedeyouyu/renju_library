@@ -1,6 +1,6 @@
 from core.handlers import ApiHandler, PageHandler
 from core.decorators import check_params, require_permissions
-from library.models import Library
+from library.models import Library, HotKeyword
 
 
 class LibraryApiSaveHandler(ApiHandler):
@@ -18,8 +18,30 @@ class LibraryApiSaveHandler(ApiHandler):
         return self.api_succeed({'id': str(library.id)})
 
 
+class LibraryApiSaveHotKeywordHandler(ApiHandler):
+    @check_params('id', 'keyword')
+    @require_permissions('root')
+    def post(self, *args, **kwargs):
+        hot_keyword_id = self.get_str_argument('id', '')
+        hot_keyword_keyword = self.get_str_argument('keyword', '')
+        hot_keyword = HotKeyword.save_and_index(self.current_user, id=hot_keyword_id, keyword=hot_keyword_keyword)
+        return self.api_succeed({'id': str(hot_keyword.id)})
+
+
+class LibraryApiDeleteHotKeywordHandler(ApiHandler):
+    @check_params('id')
+    @require_permissions('root')
+    def post(self, *args, **kwargs):
+        hot_keyword_id = self.get_str_argument('id', '')
+        hot_keyword = HotKeyword.objects(id=hot_keyword_id)
+        hot_keyword.delete()
+        return self.api_succeed()
+
+
 __api_handlers__ = [
-    (r'^/library/api/save$', LibraryApiSaveHandler)
+    (r'^/library/api/save$', LibraryApiSaveHandler),
+    (r'^/library/api/saveHotKeyword$', LibraryApiSaveHotKeywordHandler),
+    (r'^/library/api/deleteHotKeyword$', LibraryApiDeleteHotKeywordHandler)
 ]
 
 
@@ -71,10 +93,19 @@ class LibraryViewOrEditHandler(PageHandler):
                                can_edit=session and 'root' in session['permissions'])
 
 
+class LibraryHotKeywordListHandler(PageHandler):
+    def get(self, *args, **kwargs):
+        session = self.get_session()
+        hot_keywords = HotKeyword.objects()
+        return self.render('library/hot_keyword_list.html',
+                           hotKeywords=hot_keywords, can_edit=session and 'root' in session['permissions'])
+
+
 __page_handlers__ = [
     (r'^/library/list$', LibraryListHandler),
     (r'^/library/search$', LibrarySearchHandler),
     (r'^/library/searchText$', LibrarySearchTextHandler),
     (r'^/library/searchManual$', LibrarySearchManualHandler),
-    (r'^/library/viewOrEdit$', LibraryViewOrEditHandler)
+    (r'^/library/viewOrEdit$', LibraryViewOrEditHandler),
+    (r'^/library/hotKeywordList$', LibraryHotKeywordListHandler)
 ]

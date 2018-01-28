@@ -2,7 +2,7 @@ from datetime import datetime
 
 from config import config
 from account.models import User
-from library.models import Library
+from library.models import Library, HotKeyword
 
 
 config()

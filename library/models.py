@@ -92,3 +92,16 @@ class Library(BaseModel):
             if not major_found:
                 break
         return patterns
+
+
+class HotKeyword(BaseModel):
+    keyword = StringField(max_length=40)
+    meta = {
+        'indexes': ['-createTime'],
+        'ordering': ['-createTime']
+    }
+
+    def to_vo(self, search=False, **kwargs):
+        vo = super().to_vo(**kwargs)
+        vo['keyword'] = self.keyword
+        return vo

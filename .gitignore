@@ -5,4 +5,4 @@ __pycache__/
 *.py[cod]
 
 config.py
-renju-library.conf
+renju_library.conf
