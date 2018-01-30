@@ -183,7 +183,7 @@ class ApiHandler(BaseHandler):
     def on_login_required(self):
         self.api_failed(7, 'Login required.')
 
-    def api_succeed(self, data=None):
+    def api_succeeded(self, data=None):
         """Call this method when the API execution succeed.
         """
         self._api_finished(0, None, data)
@@ -261,7 +261,7 @@ class UploadImageHandler(ApiHandler):
             if image.format not in options.upload_image_accept_formats:
                 return self.api_failed(4, 'Invalid image format.')
             url = upload_oss(contents, image.format)
-            return self.api_succeed({'url': url, 'width': image.width, 'height': image.height})
+            return self.api_succeeded({'url': url, 'width': image.width, 'height': image.height})
 
 
 class UploadAudioHandler(ApiHandler):
@@ -276,7 +276,7 @@ class UploadAudioHandler(ApiHandler):
         if audio.mime[0] not in options.upload_audio_accept_formats:
             return self.api_failed(4, 'Invalid audio format.')
         url = upload_oss(contents, audio.mime[0].split('/')[1])
-        return self.api_succeed({'url': url, 'duration': int(audio.info.length)})
+        return self.api_succeeded({'url': url, 'duration': int(audio.info.length)})
 
 
 class UploadVideoHandler(ApiHandler):
@@ -299,8 +299,8 @@ class UploadVideoHandler(ApiHandler):
         video_url = upload_oss(video_contents, video_extension)
         with Image.open(BytesIO(cover_contents)) as cover:
             cover_url = upload_oss(cover_contents, cover_extension)
-            return self.api_succeed({'url': video_url, 'duration': video_duration,
-                                     'cover': {'url': cover_url, 'width': cover.width, 'height': cover.height}})
+            return self.api_succeeded({'url': video_url, 'duration': video_duration,
+                                       'cover': {'url': cover_url, 'width': cover.width, 'height': cover.height}})
 
     @staticmethod
     def capture(video_contents, video_extension, video_duration):

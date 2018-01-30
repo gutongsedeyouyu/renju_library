@@ -41,6 +41,7 @@ def require_permissions(*required_permissions):
         return actual_decorator
     return decorator
 
+
 require_login = require_permissions()
 
 

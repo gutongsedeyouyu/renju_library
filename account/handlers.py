@@ -13,7 +13,7 @@ class LoginApiHandler(ApiHandler):
         try:
             user = User.auth_by_password(user_name, password)
             session_id = self.generate_session(str(user.id), user.permissions, nickName=user.nickName)
-            return self.api_succeed({'sessionId': session_id})
+            return self.api_succeeded({'sessionId': session_id})
         except:
             return self.api_failed(4, '用户名/密码不正确')
 

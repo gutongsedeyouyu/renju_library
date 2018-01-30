@@ -15,7 +15,7 @@ class LibraryApiSaveHandler(ApiHandler):
         library = Library.save_and_index(self.current_user, id=library_id, title=title,
                                          blackPlayerName=black_player_name, whitePlayerName=white_player_name,
                                          manual=manual)
-        return self.api_succeed({'id': str(library.id)})
+        return self.api_succeeded({'id': str(library.id)})
 
 
 class LibraryApiSaveHotKeywordHandler(ApiHandler):
@@ -25,7 +25,7 @@ class LibraryApiSaveHotKeywordHandler(ApiHandler):
         hot_keyword_id = self.get_str_argument('id', '')
         hot_keyword_keyword = self.get_str_argument('keyword', '')
         hot_keyword = HotKeyword.save_and_index(self.current_user, id=hot_keyword_id, keyword=hot_keyword_keyword)
-        return self.api_succeed({'id': str(hot_keyword.id)})
+        return self.api_succeeded({'id': str(hot_keyword.id)})
 
 
 class LibraryApiDeleteHotKeywordHandler(ApiHandler):
@@ -35,7 +35,7 @@ class LibraryApiDeleteHotKeywordHandler(ApiHandler):
         hot_keyword_id = self.get_str_argument('id', '')
         hot_keyword = HotKeyword.objects(id=hot_keyword_id)
         hot_keyword.delete()
-        return self.api_succeed()
+        return self.api_succeeded()
 
 
 __api_handlers__ = [
