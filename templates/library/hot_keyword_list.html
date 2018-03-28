@@ -25,7 +25,8 @@
         <div class="container table-responsive">
             <table class="col-xs-12 table-striped table-hover">
                 <tbody>
-                    <!--<tr>
+                    {% if can_edit %}
+                    <tr>
                         <td class="col-xs-2">
                             &nbsp;
                         </td>
@@ -35,7 +36,8 @@
                         <td class="col-xs-2">
                             &nbsp;
                         </td>
-                    </tr>-->
+                    </tr>
+                    {% end %}
                     {% for hotKeyword in hotKeywords %}
                     <tr>
                         <td class="col-xs-2">
