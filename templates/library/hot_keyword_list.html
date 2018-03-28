@@ -7,6 +7,13 @@
         <title>中国连珠网棋谱库</title>
     </head>
     <body>
+        <div class="container">
+            {% if not session %}
+            <a href="/account/login" class="btn btn-link">登录</a>
+            {% else %}
+            你好，{{ session['nickName'] }}<a href="/account/logout" class="btn btn-link">退出</a>
+            {% end %}
+        </div>
         <div class="container text-center">
             <h3>中国连珠网棋谱库检索</h3>
         </div>

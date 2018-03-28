@@ -98,7 +98,7 @@ class LibraryHotKeywordListHandler(PageHandler):
         session = self.get_session()
         hot_keywords = HotKeyword.objects()
         return self.render('library/hot_keyword_list.html',
-                           hotKeywords=hot_keywords, can_edit=session and 'root' in session['permissions'])
+                           session=session, hotKeywords=hot_keywords, can_edit=session and 'root' in session['permissions'])
 
 
 __page_handlers__ = [
